@@ -16,18 +16,18 @@ class Element:
 
     @property
     def position(self):
-        jsonutils.check_vector_key(self.json_data, "position")
+        jsonutils.ensure_vector_key(self.json_data, "position")
         return self.json_data["position"]["x"], self.json_data["position"]["y"]
 
     @position.setter
     def position(self, xy):
-        jsonutils.check_vector_key(self.json_data, "position")
+        jsonutils.ensure_vector_key(self.json_data, "position")
         self.json_data["position"]["x"] = xy[0]
         self.json_data["position"]["y"] = xy[1]
 
     @property
     def angle(self):
-        jsonutils.check_key(self.json_data, "angle", 0)
+        jsonutils.ensure_key(self.json_data, "angle", 0)
         return self.json_data["angle"]
 
     @angle.setter

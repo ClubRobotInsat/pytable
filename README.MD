@@ -32,3 +32,11 @@ Vous pouvez lancer l'éditeur pytable simplement avec la commande suivante (à e
 ```
 python3 -m pytable
 ```
+
+### 3. Lancer les tests unitaires
+
+Pour lancer les tests unitaires, il suffit de lancer la commande :
+
+```
+python3 -m unittest tests
+```
