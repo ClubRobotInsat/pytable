@@ -1,4 +1,5 @@
 from pytable import PyTable
 
 if __name__ == "__main__":
-    PyTable()
+    app = PyTable()
+    app.run()

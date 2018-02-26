@@ -2,10 +2,11 @@ import tkinter as tk
 
 
 class ToolsMenu(tk.LabelFrame):
-    def __init__(self, master, app):
-        tk.LabelFrame.__init__(self, master, text="Tools")
+    def __init__(self, parent, master):
+        tk.LabelFrame.__init__(self, parent, text="Tools")
 
-        img_provider = app.get_image_provider()
+        self.master = master
+        img_provider = master.get_image_provider()
 
         # ajout des boutons
         def add_button(imgid, row, column):
@@ -16,3 +17,6 @@ class ToolsMenu(tk.LabelFrame):
 
         add_button("rectangle_32", 0, 0)
         add_button("circle_32", 0, 1)
+
+    def on_window_ready(self):
+        pass

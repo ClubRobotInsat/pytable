@@ -1,29 +1,37 @@
 import json
 
-from pytable.gui import (EditorWindow, ImageProvider)
+from pytable.gui import PyTableWindow
 from pytable.core import (Table, TableContext)
 
 
 class PyTable:
     def __init__(self, *args):
-        # TODO pas ouf sachant que la window a besoin de l'image provider pour ce créer
-        self.image_provider = ImageProvider("images")
-        self.window = EditorWindow(self)
+        pass
 
-        self.window.mainloop()
+    def run(self):
+        window = PyTableWindow(self)
+        window.mainloop()
 
-    def get_image_provider(self):
-        return self.image_provider
+    def set_current_file(self, filename):
+        self.current_file = filename
 
     def create_default_ctx(self):
-        return TableContext(Table())
+        return TableContext(Table({}))
 
-    def load_ctx_from_file(self, filename):
-        # Recuperation du fichier texte
+    def load_ctx_from_file(self, filename, **kwargs):
+        # Get file contents
         file_obj = open(filename, 'r')
-        file_contents = file_obj.read()
-        json_data = json.loads(file_contents)
+        json_data = json.load(file_obj)
+        file_obj.close()
 
-        # Chargement de la Table
-        table = Table.load_from_json(json_data)
+        # Load the table
+        table = Table(json_data)
         return TableContext(table)
+
+    def save_ctx_to_file(self, filename, ctx):
+        # Convert the table into json
+        json_data = ctx.table.to_json()
+
+        file_obj = open(filename, 'w')
+        json.dump(json_data, file_obj, sort_keys=True, indent=4)
+        file_obj.close()

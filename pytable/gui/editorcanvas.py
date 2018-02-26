@@ -57,10 +57,11 @@ class SelectionManager:
 
 
 class EditorCanvas(tk.Canvas):
-    def __init__(self, parent, ctx):
+    def __init__(self, parent, master, ctx):
         tk.Canvas.__init__(self, parent)
 
-        # initialisation stuff (TODO refactor)
+        # initialisation stuff
+        self.master = master
         self.propeditor = None
         self.selection_manager = SelectionManager(self)
         self.current_tool = tools.SelectionTool(self)
@@ -80,8 +81,8 @@ class EditorCanvas(tk.Canvas):
         self.bind("<ButtonRelease-1>", self.on_mouse_release)
         self.bind("<B1-Motion>", self.on_mouse_drag)
 
-    def set_property_editor(self, propeditor):
-        self.propeditor = propeditor
+    def on_window_ready(self):
+        self.propeditor = self.master.get_property_editor()
 
     def set_context(self, ctx):
         self.table_ctx = ctx

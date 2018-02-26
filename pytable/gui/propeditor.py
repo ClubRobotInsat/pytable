@@ -3,8 +3,10 @@ import tkinter.ttk as ttk
 
 
 class PropertyEditor(tk.LabelFrame):
-    def __init__(self, master):
-        tk.LabelFrame.__init__(self, master, width=200, text="Properties")
+    def __init__(self, parent, master):
+        tk.LabelFrame.__init__(self, parent, width=200, text="Properties")
+
+        self.master = master
         self.elements = []
         self.rows = {}
         self.edit_popup = None
@@ -18,6 +20,9 @@ class PropertyEditor(tk.LabelFrame):
 
         self.main_view.bind("<Button-1>", self.on_click)
         self.main_view.pack(fill=tk.BOTH, expand=True)
+
+    def on_window_ready(self):
+        pass
 
     def set_elements(self, *elems):
         self.elements = list(elems)
