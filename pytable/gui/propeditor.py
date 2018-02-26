@@ -7,6 +7,7 @@ class PropertyEditor(tk.LabelFrame):
         tk.LabelFrame.__init__(self, parent, width=200, text="Properties")
 
         self.master = master
+        self.editor = None
         self.elements = []
         self.rows = {}
         self.edit_popup = None
@@ -22,7 +23,7 @@ class PropertyEditor(tk.LabelFrame):
         self.main_view.pack(fill=tk.BOTH, expand=True)
 
     def on_window_ready(self):
-        pass
+        self.editor = self.master.get_graphical_editor()
 
     def set_elements(self, *elems):
         self.elements = list(elems)
@@ -41,7 +42,7 @@ class PropertyEditor(tk.LabelFrame):
             keys = elem.get_keys()
 
             for key in keys:
-                self.__update_prop(key, elem[key])
+                self.__update_property_in_tree(key, elem[key])
 
     def __get_item_value(self, item_id):
         value = self.main_view.item(item_id, "value")
@@ -51,7 +52,7 @@ class PropertyEditor(tk.LabelFrame):
 
         return value
 
-    def __update_prop(self, name, value, parent_name=''):
+    def __update_property_in_tree(self, name, value, parent_name=''):
         prop_full_name = parent_name + "." + name if parent_name != '' else name
         item_value = str(value) if not isinstance(value, dict) else ""
 
@@ -72,7 +73,7 @@ class PropertyEditor(tk.LabelFrame):
         # Add children properties
         if isinstance(value, dict):
             for child_name in value:
-                self.__update_prop(child_name, value[child_name],
+                self.__update_property_in_tree(child_name, value[child_name],
                                    prop_full_name)
 
     def get_full_property_path(self, rowid):
@@ -110,6 +111,7 @@ class PropertyEditor(tk.LabelFrame):
             elem.set_property_value(property_path, self.edit_popup.get())
 
         self.rebuild_property_tree()
+        self.editor.update_all_canvas_elements()
 
     def on_click(self, event):
         ex, ey = event.x, event.y

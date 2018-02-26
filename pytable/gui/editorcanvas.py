@@ -50,7 +50,7 @@ class SelectionManager:
         self.anchor = None
 
     def __on_selection_change(self):
-        self.editor.update_canvas_elements()
+        self.editor.update_all_canvas_elements()
         # TODO à voir par qui cette ligne est gérée
         self.editor.propeditor.set_elements(
             *self.editor.get_corresponding_elements(*self.selection))
@@ -115,7 +115,7 @@ class EditorCanvas(tk.Canvas):
             self.table_elements[elem_id] = elem
             self.update_canvas_element(elem_id)
 
-    def update_canvas_elements(self):
+    def update_all_canvas_elements(self):
         for elem_id in self.table_elements:
             self.update_canvas_element(elem_id)
 

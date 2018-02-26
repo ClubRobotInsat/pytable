@@ -57,6 +57,9 @@ class PyTableWindow(tk.Tk):
     def get_property_editor(self):
         return self.propeditor
 
+    def get_graphical_editor(self):
+        return self.editor
+
     def get_image_provider(self):
         return self.image_provider
 
