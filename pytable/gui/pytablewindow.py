@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from pytable.gui import (ImageProvider, EditorCanvas, ToolsMenu,
+from pytable.gui import (ImageProvider, GraphicalEditor, ToolsMenu,
                          PropertyEditor)
 
 
@@ -40,25 +40,25 @@ class PyTableWindow(tk.Tk):
         self.tools = ToolsMenu(self.left_panel, self)
         self.tools.pack(side=tk.TOP, fill=tk.X)
 
-        self.propeditor = PropertyEditor(self.left_panel, self)
-        self.propeditor.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        self.property_editor = PropertyEditor(self.left_panel, self)
+        self.property_editor.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-        self.editor = EditorCanvas(self, self, self.current_ctx)
-        self.editor.pack(fill=tk.BOTH, expand=1)
+        self.graphical_editor = GraphicalEditor(self, self, self.current_ctx)
+        self.graphical_editor.pack(fill=tk.BOTH, expand=1)
 
         # ready
-        self.editor.on_window_ready()
+        self.graphical_editor.on_window_ready()
         self.tools.on_window_ready()
-        self.propeditor.on_window_ready()
+        self.property_editor.on_window_ready()
 
     def get_app(self):
         return self.app
 
     def get_property_editor(self):
-        return self.propeditor
+        return self.property_editor
 
     def get_graphical_editor(self):
-        return self.editor
+        return self.graphical_editor
 
     def get_image_provider(self):
         return self.image_provider
@@ -77,6 +77,11 @@ class PyTableWindow(tk.Tk):
 
         return filename
 
+    def __swap_context(self, context):
+        self.current_ctx = context
+        self.graphical_editor.set_context(context)
+        self.property_editor.set_context(context)
+
     # Events
 
     def command_open_table(self):
@@ -87,13 +92,11 @@ class PyTableWindow(tk.Tk):
 
         if filename:
             # TODO catch exceptions
-            self.current_ctx = self.app.load_ctx_from_file(filename)
-            self.editor.set_context(self.current_ctx)
+            self.__swap_context(self.app.load_ctx_from_file(filename))
             self.current_filename = filename
 
     def command_new_table(self):
-        self.current_ctx = self.app.create_default_ctx()
-        self.editor.set_context(self.current_ctx)
+        self.__swap_context(self.app.create_default_ctx())
 
     def command_save_table(self):
         if not self.current_filename:

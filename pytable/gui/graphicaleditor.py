@@ -5,15 +5,15 @@ from pytable.gui import tools
 
 
 class SelectionManager:
-    def __init__(self, editor):
-        self.editor = editor
+    def __init__(self, graphical_editor):
+        self.graphical_editor = graphical_editor
 
         self.selection = set()
         self.anchor = None
         self.select_item = None
 
     def select_current_elem(self):
-        elem_id = self.editor.find_withtag(tk.CURRENT)
+        elem_id = self.graphical_editor.find_withtag(tk.CURRENT)
 
         if elem_id:
             self.selection |= set(elem_id)
@@ -33,44 +33,45 @@ class SelectionManager:
     def start_rectangle_selection(self, xy, **args):
         self.anchor = xy
 
-        self.select_item = self.editor.create_rectangle(*xy, *xy)
+        self.select_item = self.graphical_editor.create_rectangle(*(xy + xy))
 
     def update_rectangle_selection(self, xy):
-        item_ids = self.editor.find_enclosed(*self.anchor, *xy)
+        item_ids = self.graphical_editor.find_enclosed(*(self.anchor + xy))
         self.selection = set(item_ids)
 
-        self.editor.coords(self.select_item, *self.anchor, *xy)
+        self.graphical_editor.coords(self.select_item, *(self.anchor + xy))
 
         self.__on_selection_change()
 
     def terminate_selection(self):
-        self.editor.delete(self.select_item)
+        self.graphical_editor.delete(self.select_item)
         self.select_item = None
 
         self.anchor = None
 
     def __on_selection_change(self):
-        self.editor.update_all_canvas_elements()
+        self.graphical_editor.update_all_canvas_elements()
         # TODO à voir par qui cette ligne est gérée
-        self.editor.propeditor.set_elements(
-            *self.editor.get_corresponding_elements(*self.selection))
+        self.graphical_editor.property_editor.set_elements(
+            *self.graphical_editor.get_corresponding_elements(*self.selection))
 
 
-class EditorCanvas(tk.Canvas):
+class GraphicalEditor(tk.Canvas):
     def __init__(self, parent, master, ctx):
         tk.Canvas.__init__(self, parent)
 
         # initialisation stuff
         self.master = master
-        self.propeditor = None
+        self.property_editor = None
+        self.current_tool = None
         self.selection_manager = SelectionManager(self)
-        self.current_tool = tools.SelectionTool(self)
 
         self.table_elements = {}
         self.scale = 500
 
         self.is_dragging = False
 
+        self.set_current_tool(tools.SelectionTool())
         self.set_context(ctx)
 
         # tkinter setup
@@ -82,11 +83,20 @@ class EditorCanvas(tk.Canvas):
         self.bind("<B1-Motion>", self.on_mouse_drag)
 
     def on_window_ready(self):
-        self.propeditor = self.master.get_property_editor()
+        self.property_editor = self.master.get_property_editor()
 
     def set_context(self, ctx):
         self.table_ctx = ctx
         self.reset_elements()
+
+    def set_current_tool(self, tool):
+        if self.current_tool:
+            self.current_tool.deactivate(self)
+
+        self.current_tool = tool
+
+        if self.current_tool:
+            self.current_tool.activate(self)
 
     def reset_elements(self):
         # Delete all elements

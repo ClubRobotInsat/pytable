@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from pytable.gui import tools
+
 
 class ToolsMenu(tk.LabelFrame):
     def __init__(self, parent, master):

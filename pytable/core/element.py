@@ -14,39 +14,6 @@ class Element:
     def get_keys(self):
         return list(self.json_data.keys())
 
-    def set_property_value(self, full_path, new_value):
-        """
-        Changes the value of the indicated property
-
-        Arguments:
-        full_name -- the complete path of the property, with each name separed
-            by a dot
-        str_value -- the new value of the property. The type of the provided
-            value doesn't matter, the value is casted to the previous value type
-        """
-        names = full_path.split(".")  # FIXME probleme si la prop contient un .
-        prop_parent = self.json_data
-
-        for name in names[:-1]:
-            prop_parent = prop_parent[name]  # TODO name check, range check etc
-
-        final_name = names[-1]
-
-        # type checking
-        previous_value = prop_parent[final_name]
-
-        if isinstance(previous_value, (dict, list)):
-            raise TypeError("Can't replace a compound value")
-
-        if isinstance(previous_value, int):
-            new_value = int(new_value)
-        elif isinstance(previous_value, float):
-            new_value = float(new_value)
-        elif isinstance(previous_value, str):
-            new_value = str(new_value)
-
-        prop_parent[final_name] = new_value
-
     @property
     def position(self):
         jsonutils.check_vector_key(self.json_data, "position")
