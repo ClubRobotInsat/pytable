@@ -51,7 +51,7 @@ class PropertyEditor(tk.LabelFrame):
     def __get_item_value(self, item_id):
         value = self.main_view.item(item_id, "value")
 
-        if isinstance(value, tuple):
+        if value != "":
             value = value[0]
 
         return value

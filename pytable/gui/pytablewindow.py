@@ -37,14 +37,29 @@ class PyTableWindow(tk.Tk):
         self.left_panel.config(width=200)
         self.left_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
 
+        self.middle_panel = tk.Frame(self)
+        self.middle_panel.pack(fill=tk.BOTH, expand=True)
+
         self.tools = ToolsMenu(self.left_panel, self)
         self.tools.pack(side=tk.TOP, fill=tk.X)
 
         self.property_editor = PropertyEditor(self.left_panel, self)
         self.property_editor.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-        self.graphical_editor = GraphicalEditor(self, self, self.current_ctx)
-        self.graphical_editor.pack(fill=tk.BOTH, expand=1)
+        self.graphical_editor = GraphicalEditor(self.middle_panel, self,
+                                                self.current_ctx)
+
+        xscrollbar = tk.Scrollbar(self.middle_panel, orient=tk.HORIZONTAL)
+        xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        xscrollbar.config(command=self.graphical_editor.xview)
+
+        yscrollbar = tk.Scrollbar(self.middle_panel)
+        yscrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        yscrollbar.config(command=self.graphical_editor.yview)
+
+        self.graphical_editor.config(
+            xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self.graphical_editor.pack(fill=tk.BOTH, expand=True)
 
         # ready
         self.graphical_editor.on_window_ready()

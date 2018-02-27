@@ -1,7 +1,7 @@
-class DummyTestTool:
-    def activate(self, graphical_editor):
-        pass
+from pytable.gui.tools import Tool
 
+
+class DummyTestTool(Tool):
     def on_click(self, event):
         print("click")
 
@@ -13,6 +13,3 @@ class DummyTestTool:
 
     def on_end_drag(self, event):
         print("end drag")
-
-    def deactivate(self, graphical_editor):
-        pass

@@ -71,7 +71,6 @@ class GraphicalEditor(tk.Canvas):
 
         self.is_dragging = False
 
-        self.set_current_tool(tools.SelectionTool())
         self.set_context(ctx)
 
         # tkinter setup
@@ -110,6 +109,8 @@ class GraphicalEditor(tk.Canvas):
 
         for elem in table.elements:
             self.create_canvas_element(elem)
+
+        self.config(scrollregion=self.bbox(tk.ALL))
 
     def create_canvas_element(self, elem):
         elem_id = None
@@ -170,6 +171,20 @@ class GraphicalEditor(tk.Canvas):
             self.table_elements[elem_id] for elem_id in self.table_elements
             if elem_id in elem_ids
         ]
+
+    def window_to_canvas_coords(self, window_coords):
+        wx, wy = window_coords
+        return self.canvasx(wx), self.canvasy(wy)
+
+    def canvas_to_table_coords(self, canvas_coords):
+        cx, cy = canvas_coords
+        return cx / self.scale, cy / self.scale
+
+    def event_canvas_coords(self, event):
+        return self.window_to_canvas_coords((event.x, event.y))
+
+    def event_table_coords(self, event):
+        return self.canvas_to_table_coords(self.event_canvas_coords(event))
 
     # Events
 

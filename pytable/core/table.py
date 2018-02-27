@@ -23,3 +23,6 @@ class Table:
             json_data["objects"].append(copy.deepcopy(element.json_data))
 
         return json_data
+
+    def add_element(self, elem):
+        self.elements.append(elem)
