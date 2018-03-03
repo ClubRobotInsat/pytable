@@ -107,3 +107,6 @@ class TableContext:
         json_data = {"type": "cylinder", "radius": radius, "height": height}
 
         return self.create_element(position, json_data=json_data)
+
+    def remove_element(self, elem):
+        self.table.remove_element(elem)

@@ -57,7 +57,7 @@ class SelectionManager:
 
 
 class GraphicalEditor(tk.Canvas):
-    def __init__(self, parent, master, ctx):
+    def __init__(self, parent, master):
         tk.Canvas.__init__(self, parent)
 
         # initialisation stuff
@@ -66,12 +66,11 @@ class GraphicalEditor(tk.Canvas):
         self.current_tool = None
         self.selection_manager = SelectionManager(self)
 
+        # key : elem_id, value : elem
         self.table_elements = {}
         self.scale = 500
 
         self.is_dragging = False
-
-        self.set_context(ctx)
 
         # tkinter setup
         self.config(background='#d0d0d0')
@@ -80,6 +79,8 @@ class GraphicalEditor(tk.Canvas):
         self.bind("<ButtonPress-1>", self.on_mouse_press)
         self.bind("<ButtonRelease-1>", self.on_mouse_release)
         self.bind("<B1-Motion>", self.on_mouse_drag)
+        self.bind("<Delete>", self.on_delete)
+        self.bind("<BackSpace>", self.on_delete)
 
     def on_window_ready(self):
         self.property_editor = self.master.get_property_editor()
@@ -189,6 +190,7 @@ class GraphicalEditor(tk.Canvas):
     # Events
 
     def on_mouse_press(self, event):
+        self.focus_set()
         self.press_event = event
 
     def on_mouse_drag(self, event):
@@ -218,6 +220,13 @@ class GraphicalEditor(tk.Canvas):
         else:
             if self.current_tool:
                 self.current_tool.on_click(event)
+
+    def on_delete(self, event):
+        elem_ids = self.selection_manager.selection
+
+        for elem_id in elem_ids:
+            self.delete(elem_id)
+            self.table_ctx.remove_element(self.table_elements[elem_id])
 
     def on_resize(self, event):
         pass

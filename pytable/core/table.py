@@ -26,3 +26,6 @@ class Table:
 
     def add_element(self, elem):
         self.elements.append(elem)
+
+    def remove_element(self, elem):
+        self.elements.remove(elem)

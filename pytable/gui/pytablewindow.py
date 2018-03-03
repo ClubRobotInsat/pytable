@@ -46,8 +46,7 @@ class PyTableWindow(tk.Tk):
         self.property_editor = PropertyEditor(self.left_panel, self)
         self.property_editor.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-        self.graphical_editor = GraphicalEditor(self.middle_panel, self,
-                                                self.current_ctx)
+        self.graphical_editor = GraphicalEditor(self.middle_panel, self)
 
         xscrollbar = tk.Scrollbar(self.middle_panel, orient=tk.HORIZONTAL)
         xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
@@ -65,6 +64,8 @@ class PyTableWindow(tk.Tk):
         self.graphical_editor.on_window_ready()
         self.tools.on_window_ready()
         self.property_editor.on_window_ready()
+
+        self.command_new_table()
 
     def get_app(self):
         return self.app
