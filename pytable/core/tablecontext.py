@@ -110,3 +110,8 @@ class TableContext:
 
     def remove_element(self, elem):
         self.table.remove_element(elem)
+
+    def translate_element(self, elem, dx, dy, dz=0):
+        elem["position"]["x"] += dx
+        elem["position"]["y"] += dy
+        elem["position"]["z"] += dz

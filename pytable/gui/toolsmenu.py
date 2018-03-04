@@ -30,6 +30,7 @@ class ToolsMenu(tk.LabelFrame):
                    tools.ShapeTool(tools.ShapeTool.create_cuboid))
         add_button("circle_32", 0, 2,
                    tools.ShapeTool(tools.ShapeTool.create_cylinder))
+        add_button("move_32", 0, 3, tools.MoveTool())
 
     def on_window_ready(self):
         self.graphical_editor = self.master.get_graphical_editor()

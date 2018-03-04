@@ -21,3 +21,4 @@ class Tool:
 from .dummytesttool import DummyTestTool
 from .selectiontool import SelectionTool
 from .shapetool import ShapeTool
+from .movetool import MoveTool
