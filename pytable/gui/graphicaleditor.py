@@ -12,11 +12,17 @@ class SelectionManager:
         self.anchor = None
         self.select_item = None
 
-    def select_current_elem(self):
+    def select_current_elem(self, **kwargs):
         elem_id = self.graphical_editor.find_withtag(tk.CURRENT)
+        toggle = kwargs["toggle"] if "toggle" in kwargs else False
 
         if elem_id:
-            self.selection |= set(elem_id)
+            new_ids = set(elem_id)
+
+            if toggle and not new_ids - self.selection:
+                self.selection -= new_ids
+            else:
+                self.selection |= new_ids
 
             self.__on_selection_change()
 

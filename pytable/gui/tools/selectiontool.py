@@ -7,8 +7,10 @@ class SelectionTool(Tool):
         self.selection_manager = graphical_editor.selection_manager
 
     def on_click(self, event):
-        self.selection_manager.unselect_all()
-        self.selection_manager.select_current_elem()
+        if not event.state & 0x4:  # TODO constantes (0x04 == CTRL)
+            self.selection_manager.unselect_all()
+
+        self.selection_manager.select_current_elem(toggle=True)
 
     def on_start_drag(self, event):
         self.selection_manager.unselect_all()
