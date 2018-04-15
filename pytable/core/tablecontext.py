@@ -39,7 +39,9 @@ class TableContext:
         if isinstance(previous_value, (dict, list)):
             raise TypeError("Can't replace a compound value")
 
-        if isinstance(previous_value, (int, float)):
+        if isinstance(previous_value, bool):
+            new_value = True if new_value == "True" else False
+        elif isinstance(previous_value, (int, float)):
             new_value = float(new_value)
         elif isinstance(previous_value, str):
             new_value = str(new_value)
