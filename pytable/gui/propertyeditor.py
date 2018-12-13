@@ -3,6 +3,16 @@ import tkinter.ttk as ttk
 
 
 class PropertyEditor(tk.LabelFrame):
+    """
+    With the Property Editor, user can change properties of the selected
+    elements. The Property Editor is compound of a TreeView displaying all
+    the properties of the selected elements. The TreeView has 2 column :
+    the left one contains the names of the properties, and the right one
+    shows their values in editable text fields.
+
+    Multi-editing properties is handled by the Property Editor.
+    """
+
     def __init__(self, parent, master):
         tk.LabelFrame.__init__(self, parent, width=200, text="Properties")
 
@@ -51,6 +61,9 @@ class PropertyEditor(tk.LabelFrame):
     def __get_item_value(self, item_id):
         """
         Gets the corresponding value for the given item in the tree.
+
+        Arguments:
+        item_id -- the TKinter id of the list item.
         """
         value = self.tree.item(item_id, "value")
 

@@ -1,4 +1,13 @@
 class Tool:
+    """
+    Base class for tools. Each tool corresponds to one of the squared buttons
+    at the top of the window (Selection, Create a cuboid, Create a cylinder...)
+
+    Tools specify what should be modified on the table and on the editor,
+    when the user moves the mouse or clicks, for exemple. When a tool is activated,
+    it gets attached to a graphical editor and obtains a reference to it.
+    """
+
     def activate(self, graphical_editor):
         self.graphical_editor = graphical_editor
 

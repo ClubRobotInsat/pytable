@@ -5,6 +5,10 @@ from pytable.core.element import Element
 
 
 class Table:
+    """
+    Object representation of a table with all its elements.
+    """
+
     def __init__(self, json_data):
         self.metadata = copy.deepcopy(json_data)
         self.elements = []
@@ -16,6 +20,11 @@ class Table:
                 self.elements.append(Element(element_data))
 
     def to_json(self):
+        """
+        Creates a dict containing all elements of the table. This
+        dict can be serialized directly into a json file.
+        """
+        
         json_data = copy.deepcopy(self.metadata)
         json_data["objects"] = []
 

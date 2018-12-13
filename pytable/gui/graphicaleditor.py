@@ -5,6 +5,10 @@ from pytable.gui import tools
 
 
 class SelectionManager:
+    """
+    This class is able to manage selection 
+    """
+
     def __init__(self, graphical_editor):
         self.graphical_editor = graphical_editor
 

@@ -6,6 +6,10 @@ from pytable.gui import (ImageProvider, GraphicalEditor, ToolsMenu,
 
 
 class PyTableWindow(tk.Tk):
+    """
+    Main window of the Pytable application.
+    """
+
     def __init__(self, app, **kwargs):
         tk.Tk.__init__(self)
 

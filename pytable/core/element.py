@@ -2,6 +2,18 @@ from pytable.utils import jsonutils
 
 
 class Element:
+    """
+    Represents one single element on a table.
+
+    An element has a wide set of properties. Some are common
+    to most of them (position, color, angle) but there are
+    no rules. Each property corresponds to a json field in
+    the file containing the table.
+
+    This class has several methods to access to the most
+    usual fields of an element.
+    """
+
     def __init__(self, json_data):
         self.json_data = json_data
 
@@ -12,6 +24,10 @@ class Element:
         self.json_data[key] = value
 
     def get_keys(self):
+        """
+        Returns a list containing the name of each property this object has.
+        """
+        
         return list(self.json_data.keys())
 
     @property

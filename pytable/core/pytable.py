@@ -5,6 +5,11 @@ from pytable.core import (Table, TableContext)
 
 
 class PyTable:
+    """
+    Main class of this application.
+    Create an instance and call its method #run to start pytable.
+    """
+
     def __init__(self, *args):
         pass
 
