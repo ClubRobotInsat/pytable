@@ -9,7 +9,7 @@ Bienvenue sur le dépot de PyTable, un éditeur pour l'environement du robot :)
 Pour installer python avec les bonnes librairies, tapez la commande suivante :
 
 ```
-sudo apt-get install python3.5 python3.5-tk python3-pil.imagetk
+sudo apt-get install python3 python3-tk python3-pil.imagetk
 ```
 
 Clonez ensuite le repository sur votre machine
