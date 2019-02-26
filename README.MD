@@ -40,3 +40,13 @@ Pour lancer les tests unitaires, il suffit de lancer la commande :
 ```
 python3 -m unittest tests
 ```
+
+### 4. Formattage et Lint
+
+#### Executer PyLint
+
+```
+pylint pytable
+```
+
+Pour vérifier seulement les erreurs, utiliser avec l'argument `--errors-only`. Pour avoir un rapport plus complet, utiliser `-r y`.
